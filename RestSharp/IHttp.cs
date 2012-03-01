@@ -53,6 +53,8 @@ namespace RestSharp
 		HttpWebRequest PutAsync(Action<HttpResponse> action);
 		HttpWebRequest PatchAsync(Action<HttpResponse> action);
 
+		bool UploadRaw { get; set; }
+
 #if FRAMEWORK
 		HttpResponse Delete();
 		HttpResponse Get();

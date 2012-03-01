@@ -253,6 +253,11 @@ namespace RestSharp
 		/// </summary>
 		public IAuthenticator Authenticator { get; set; }
 
+		/// <summary>
+		/// Upload raw data
+		/// </summary>
+		public bool UploadRaw { get; set; }
+
 		private string _baseUrl;
 		/// <summary>
 		/// Combined with Request.Resource to construct URL for request
@@ -442,6 +447,8 @@ namespace RestSharp
 				http.RequestBody = body.Value.ToString();
 				http.RequestContentType = body.Name;
 			}
+
+			http.UploadRaw = this.UploadRaw;
 		}
 
 		private RestResponse ConvertToRestResponse(HttpResponse httpResponse)

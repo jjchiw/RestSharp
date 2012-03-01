@@ -65,6 +65,12 @@ namespace RestSharp
 		/// <param name="request"></param>
 		RestRequestAsyncHandle ExecuteAsync<T>(IRestRequest request, Action<RestResponse<T>, RestRequestAsyncHandle> callback) where T : new();
 
+
+		/// <summary>
+		/// Upload raw data
+		/// </summary>
+		bool UploadRaw { get; set; }
+
 #if FRAMEWORK
 		/// <summary>
 		/// X509CertificateCollection to be sent with request

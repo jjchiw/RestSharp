@@ -91,6 +91,11 @@ namespace RestSharp
 		}
 
 		/// <summary>
+		/// Upload raw data
+		/// </summary>
+		public bool UploadRaw { get; set; }
+
+		/// <summary>
 		/// UserAgent to be sent with request
 		/// </summary>
 		public string UserAgent { get; set; }
@@ -296,22 +301,28 @@ namespace RestSharp
 		
 		private void WriteMultipartFormData(Stream requestStream)
 		{
-			foreach (var param in Parameters)
+			if (!UploadRaw)
 			{
-				WriteStringTo(requestStream, GetMultipartFormData(param));
+				foreach (var param in Parameters)
+				{
+					WriteStringTo(requestStream, GetMultipartFormData(param));
+				}
 			}
+			
 
 			foreach (var file in Files)
 			{
 				// Add just the first part of this param, since we will write the file data directly to the Stream
-				WriteStringTo(requestStream, GetMultipartFileHeader(file));
+				if (!UploadRaw)
+					WriteStringTo(requestStream, GetMultipartFileHeader(file));
 
 				// Write the file data directly to the Stream, rather than serializing it to a string.
 				file.Writer(requestStream);
 				WriteStringTo(requestStream, _lineBreak);
 			}
 
-			WriteStringTo(requestStream, GetMultipartFooter());
+			if (!UploadRaw)
+				WriteStringTo(requestStream, GetMultipartFooter());
 		}
 
 		private static void ExtractResponseData(HttpResponse response, HttpWebResponse webResponse)
